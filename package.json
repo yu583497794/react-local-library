@@ -1,0 +1,44 @@
+{
+  "name": "react-library",
+  "version": "1.0.0",
+  "description": "a web using react & redux",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "css": "^2.2.4",
+    "css-loader": "^2.1.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.0.3",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "style-loader": "^0.23.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.0.3",
+    "express-validator": "^5.3.1",
+    "history": "^4.9.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.5.11",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
+    "redux-thunk": "^2.3.0"
+  }
+}
