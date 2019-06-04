@@ -1,24 +1,23 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 import Loading from './Loading/Loading.js'
-const Book = function ({books, loading}) {
+const Genre = function ({genres, loading, title, name, other}) {
   return (
     <div>
-      <h2>书籍列表</h2>
+      <h2>分类列表</h2>
       {
         loading
         ? (<Loading/>)
         : (<ul>
             {
-              books && books.length > 0 ? books.map(book => {
+              genres && genres.length > 0 ? genres.map(genre => {
                 return (
-                  <li key={book._id}>
-                    <Link to={`/book/${book._id}`}>{book.title}</Link>
-                    <span>{book.author.name}</span>
+                  <li key={genre._id}>
+                    <Link to={`/genre/${genre._id}`}>{genre.name}</Link>
                   </li>
                 )
               }) : (
-                <li>{'暂无任何书籍'}</li>
+                <li>{'暂无任何信息'}</li>
               )
             }
           </ul>
@@ -28,4 +27,4 @@ const Book = function ({books, loading}) {
   )
 }
 
-export default Book;
+export default Genre;

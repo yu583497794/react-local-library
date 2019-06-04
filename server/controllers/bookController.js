@@ -19,12 +19,10 @@ function findBookPromise (id) {
 }
 
 function findCopysPromise (id) {
-  console.log(id)
   return new Promise((resolve, reject) => {
     BookInstance.find({book: id}, (err, results) => {
       if (err) reject(err);
       else {
-        console.log(results)
         resolve(results);
       }
     })

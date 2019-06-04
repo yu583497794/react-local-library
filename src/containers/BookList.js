@@ -13,7 +13,6 @@ function mapStateToProps (state, ownProps) {
     isFetching: true,
     items: []
   }
-  console.log(state.postsByCatalog["book"])
   return {
     books: items,
     isFetching,
@@ -25,13 +24,13 @@ class BookList extends React.Component {
   componentDidMount () {
     const {dispatch} = this.props;
     dispatch(fetchPostsIfNeeded("book"))
-    console.log('query')
   }
   // componentWillReceiveProops(nextState) {
   // }
   render () {
+    let {books, isFetching} = this.props;
     return (
-      <Book books={this.props.books}></Book>
+      <Book books={books} loading={isFetching}></Book>
     )
   }
 }

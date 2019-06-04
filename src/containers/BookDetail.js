@@ -38,6 +38,16 @@ class BookDetail extends React.Component {
                         <span>ISBN:</span>
                         {book.ISBN}
                     </p>
+                    <div>
+                        <span>类别:</span>
+                        <ul>
+                            {book.genre.map(item => (
+                                <li key={item._id}>
+                                    <Link to={`/genre/${item._id}`}>{item.name}</Link>
+                                </li>
+                            ))}
+                        </ul> 
+                    </div>
                     <h3>藏本</h3>
                     {copys.length === 0
                     ? (<p>暂无任何藏本</p>) 

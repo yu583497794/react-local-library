@@ -37,7 +37,7 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader',
-          'post-loader',
+          // 'post-loader',
           'stylus-loader'
         ]
       }

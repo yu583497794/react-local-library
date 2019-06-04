@@ -10,7 +10,10 @@ class AuthorList extends React.Component {
   }
   render () {
     return (
-      <Author authors= {this.props.authors}></Author>
+      <Author
+        authors= {this.props.authors}
+        loading={this.props.isFetching}
+      />
     )
   }
 }
