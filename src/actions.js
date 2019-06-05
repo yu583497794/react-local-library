@@ -4,6 +4,7 @@ export const SELECT_CATALOG = 'SELECT_CATALOG';
 export const INVALIDATE_CATALOG = 'INVALIDATE_CATALOG';
 
 import fetch from 'cross-fetch';
+import {push} from 'react-router-redux';
 
 export function selectCatalog (catalog) {
   return {
@@ -82,14 +83,23 @@ export function removeCopy (copy) {
     copy
   }
 }
+function receiveBorrowResult (list) {
+  return {
+    type: 'RECEIVE_BORROW_RESULT',
+    list
+  }
+}
+function clearSelectedCopy () {
+  return {
+    type: 'CLEAR_COPYS'
+  }
+}
 
 export function submitBorrowList (list) {
   // let formData = new FormData();
   // formData.append('borrowList', list);
   // console.log(formData)
-  console.log(list)
   let json = JSON.stringify(list)
-  console.log(json)
   return (dispatch, getState) => {
     fetch('http://localhost:3030/borrow', {
       method: 'POST',
@@ -101,7 +111,9 @@ export function submitBorrowList (list) {
       mode: 'cors'
     })
     .then(response => response.json())
-    .then(json => console.log(json))
+    .then(json => dispatch(receiveBorrowResult(json)))
+    .then(() => dispatch(clearSelectedCopy()))
+    .then(() => dispatch(push('/borrow')))
   }
 }
 

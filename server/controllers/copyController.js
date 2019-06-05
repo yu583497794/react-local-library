@@ -9,13 +9,17 @@ exports.copy_list = function (req, res, next) {
     })
 }
 
-async function borrowOne (copy) {
-  let res = await new Promise((resolve, reject) => {
+function findOne (copy) {
+  return new Promise((resolve, reject) => {
     Copy.findById(copy._id, (err, result) => {
       if (err) resolve(null)
       else resolve(result)
     })
   })
+}
+async function borrowOne (copy) {
+  let getCopy = findOne(copy);
+  let res = await getCopy;
   console.log(res);
   if (res && res.status === '可供借阅') {
     let newCopy = new Copy(Object.assign({}, res, {
@@ -24,16 +28,15 @@ async function borrowOne (copy) {
     }))
     let code = await new Promise((resolve, reject) => {
       Copy.findByIdAndUpdate(copy._id, newCopy, {}, (err, result) => {
-        if (err) resolve('Failure');
+        if (err) resolve('未知错误,借书失败');
         else {
-          console.log('success')
-          resolve('Success');
+          resolve('借书成功');
         }
       })
     })
     return code;
   } else {
-    return 'Failure'
+    return '该藏书处于不可借状态'
   }
 }
 // async function borrowAll(list) {
@@ -43,25 +46,41 @@ async function borrowOne (copy) {
 //   }))
 // }
 async function borrowAll(list) {
-  return list.map(async (copy) => {
+  return await Promise.all(list.map(async (copy) => {
     return {
       id: copy._id,
+      title: copy.book.title,
       code: await borrowOne(copy)
     }
-  })
+  }))
 }
 exports.borrow = function (req, res, next) {
   const list = req.body;
   borrowAll(list).then(response => {
     console.log(response)
     res.json(response)
-  }).catch(err => next(err)) 
+  }).catch(err => next(err))
 }
 
-// function rendOne(copy) {
-//   Copy.find
-// }
-// exports.rend = function(req, res, next) {
-//   const copy = req.copy;
-//   rendOne(copy).then()
-// }
+async function rendOne(copy) {
+  let getCopy =  findOn(copy);
+  let res = await getCopy;
+  if (res.status === '已借出') {
+    Copy.findByIdAndUpdate(copy._id, {
+      _id: copy._id,
+      status: '可供借阅'
+    }, (err, result) => {
+      if (err) resolve('归还失败');
+      else resolve('归还成功');
+    })
+  } else {
+    return '该藏书是未借出状态'
+  }
+}
+
+exports.rend = function(req, res, next) {
+  const copy = req.copy;
+  rendOne(copy).then(response => {
+    res.json(response)
+  }).catch(err => next(err)); 
+}

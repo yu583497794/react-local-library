@@ -10,6 +10,78 @@
 
 2. 默认情况下，fetch __不会从服务端发送或接收任何 cookies__, 如果站点依赖于用户 session，则会导致未经认证的请求（要发送 cookies，必须设置 credentials 选项）。
 
+# 难点
+
+## 异步并发请求
+
+```js
+async function queryAll (queryList) {
+  // 生成所有请求的promise列表
+  let queryPromises = queryList.map(async query => {
+    return {
+      code: await sendQuery(query),
+      id: query.id
+    }
+  })
+  return Promise.all(queryPromises)
+}
+```
+
+## action: borrow
+
+### 页面跳转
+
+[react-router-redux](https://github.com/reactjs/react-router-redux)
+
+```
+$ cnpm i react-router-redux -S
+```
+
+该库enhance了history实例，允许它将接收到的任何更改同步到应用程序状态。
+
+> history + store (redux) → __react-router-redux__ → enhanced history → react-router
+
+```js
+import {createBrowserHistory} from 'history';
+// 提供新的reducer, 通过combineReducers加入到state树的routing中
+import {routerReducer, syncHistoryWithStore} from 'react-router-redux';
+import thunkMiddleware from 'redux-thunk';
+
+const browserHistory = createBrowserHistory();
+const middleware = routerMiddleware(browserHistory);
+
+// Add the reducer to your store on the `routing` key
+const store = createStore(
+  combineReducers({
+    ...reducers, // 应该是以对象传入的reducers, 而不是已经combine的reducer
+    routing: routerReducer
+  }), applyMiddleware(middleware, thunkMiddleware)
+)
+
+const history = syncHistoryWithStore(browserHistory, store);
+
+// 之后还需要将 store 和 history 分别加入到 Provider 和 Router中
+```
+
+> You must install routerMiddleware for these action creators to work.
+
+#### routerMiddle(history)
+
+A middleware you can apply to your Redux store to capture dispatched actions created by the action creators. It will redirect those actions to the provided history instance.
+
+#### 访问router state的方法
+
+通过connect
+
+```js
+  mapStateToProps(state, ownProps) {
+    return {
+      id: ownProps.params.id,
+      filter: ownProps.location.query.filter
+    }
+  }
+```
+
 # 问题
 
 ## 跨域

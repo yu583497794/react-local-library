@@ -4,6 +4,7 @@ import {fetchPostsIfNeeded} from '../actions';
 import Book from '../components/Book';
 
 function mapStateToProps (state, ownProps) {
+  console.log(state)
   const {postsByCatalog} = state;
   const {
     isFetching,

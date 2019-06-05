@@ -6,7 +6,9 @@ export default function selectedCopy (state = [], action) {
         ...(new Set(state).add(action.copy))
       ]
     case 'REMOVE_COPY':
-      return state.filter(item => item._id !== action.copy._id)
+      return state.filter(item => item._id !== action.copy._id);
+    case 'CLEAR_COPYS':
+      return [];
     default:
       return state;
   }

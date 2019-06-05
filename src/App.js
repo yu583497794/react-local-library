@@ -13,20 +13,29 @@ import {
   Link
 } from 'react-router-dom';
 import {createBrowserHistory} from 'history';
-import rootReducer from './reducers/index'
+import reducer from './reducers/index'
 import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
-
+import {syncHistoryWithStore, routerMiddleware} from 'react-router-redux';
+import {createLogger} from 'redux-logger';
+// 4.X 不再有browserHistory
+// import {browserHistory}  from 'react-router';
 import Home  from './containers/Home';
+import BorrowResult from './containers/BorrowResult';
 import BookList from './containers/BookList';
 import AuthorList from './containers/AuthorList';
 import GenreList from './containers/GenreList';
 import CopyList from './containers/CopyList';
 
-import BookDetail from './containers/BookDetail.js'
-
-const store = createStore(rootReducer,
-  applyMiddleware(thunkMiddleware));
+import BookDetail from './containers/BookDetail.js';
+const customHistory = createBrowserHistory();
+const middleware = routerMiddleware(customHistory);
+// const rootReducer = combineReducers({
+//   ...reducer,
+//   routing: routerReducer
+// })
+const store = createStore(reducer,
+  applyMiddleware(createLogger(), middleware, thunkMiddleware));
 
 // class App extends React.Component {
 //   render() {
@@ -60,14 +69,12 @@ const store = createStore(rootReducer,
 //     {/* <Redirect from='/' to='/books'></Redirect> */}
 //   </HashRouter>
 // ), document.getElementById('root'));
-
-
-const customHistory = createBrowserHistory();
+const history = syncHistoryWithStore(customHistory, store)
 class App extends React.Component {
   render () {
     return (
       <Provider store={store}>
-        <HashRouter history={customHistory}>
+        <Router history={history}>
           <Sidebar></Sidebar>
           <Route exact path='/' component={Home}></Route>
           <Route path='/books' component={BookList}></Route>
@@ -75,7 +82,8 @@ class App extends React.Component {
           <Route path='/authors' component={AuthorList}></Route>
           <Route path='/genres' component={GenreList}></Route>
           <Route path='/copys' component={CopyList}></Route>
-        </HashRouter>
+          <Route path='/borrow' component={BorrowResult}></Route>
+      </Router>
       </Provider>
     )
   }

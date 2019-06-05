@@ -1,11 +1,16 @@
+import {combineReducers} from 'redux';
 import postsByCatalog from './postsByCatalog';
 import selectedCatalog from './selectedCatalog';
-import {combineReducers} from 'redux';
 import selectedCopys from './selectedCopys';
-const rootReducer = combineReducers({
+import borrowResult from './borrowResult'
+import {routerReducer} from 'react-router-redux';
+
+const reducer = combineReducers({
   postsByCatalog,
   selectedCatalog,
-  selectedCopys
+  selectedCopys,
+  borrowResult,
+  routing: routerReducer
 });
 
-export default  rootReducer;
+export default  reducer;
