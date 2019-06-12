@@ -31,11 +31,15 @@ async function queryAll (queryList) {
 
 ### 页面跳转
 
+[react-router](https://reacttraining.com/react-router/web/example/basic)
+
 [react-router-redux](https://github.com/reactjs/react-router-redux)
 
 ```
 $ cnpm i react-router-redux -S
 ```
+
+[history](https://www.npmjs.com/package/history)
 
 该库enhance了history实例，允许它将接收到的任何更改同步到应用程序状态。
 

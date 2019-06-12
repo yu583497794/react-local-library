@@ -1,4 +1,4 @@
-export default function selectedCopy (state = [], action) {
+export default function selectedCopys (state = [], action) {
   switch (action.type) {
     case 'ADD_COPY':
       console.log('add one')

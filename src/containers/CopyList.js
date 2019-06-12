@@ -23,7 +23,7 @@ class CopyList extends React.Component  {
     dispatch(removeCopy(copy))
   }
   render () {
-    let {copys, isFetching} = this.props 
+    let {copys, isFetching, selectedCopys} = this.props 
     return (
       <div>
         <h2>藏书列表</h2>
@@ -32,6 +32,7 @@ class CopyList extends React.Component  {
           loading={isFetching}
           addCopy = {this.addCopy}
           removeCopy = {this.removeCopy}
+          selectedCopys = {selectedCopys}
         />
         <SubmitBorrowBtn></SubmitBorrowBtn>
       </div>
@@ -47,9 +48,11 @@ function mapStateToProps (state, ownProps) {
     items: [],
     isFetching: true
   }
+  let {selectedCopys} = state;
   return {
     copys: items,
-    isFetching
+    isFetching,
+    selectedCopys
   }
 }
 

@@ -3,7 +3,7 @@ import Loading from './Loading/Loading';
 import moment from 'moment';
 import {Link} from 'react-router-dom'
 export default function (props) {
-  let {loading, copys, addCopy, removeCopy} = props
+  let {loading, copys, addCopy, removeCopy, selectedCopys} = props
   return (
     <div>
       {
@@ -31,6 +31,7 @@ export default function (props) {
                             removeCopy(copy);
                         }
                       }
+                      defaultChecked = {selectedCopys.some(selectedCopy => selectedCopy._id === copy._id)}
                       disabled={copy.status !== '可供借阅'}
                     />
                   </li>

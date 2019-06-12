@@ -84,3 +84,29 @@ exports.rend = function(req, res, next) {
     res.json(response)
   }).catch(err => next(err)); 
 }
+
+function findDetailOne (id) {
+  return new Promise((resolve, reject) => {
+    Copy.findById(id)
+    .populate('book', 'title')
+    .exec((err, result) => {
+      if (err) reject(err)
+      else resolve(result)
+    })
+  })
+}
+
+exports.copy_detail = function (req, res, next) {
+  const id = req.params.id;
+  findDetailOne(id)
+  .then(response => {
+    if (response === null) {
+      const err = new Error('找不到该副本');
+      err.status = 404;
+      next(err);
+    } else {
+      res.json(response);
+    }
+  })
+  .catch(err => next(err));
+}

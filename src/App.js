@@ -27,7 +27,10 @@ import AuthorList from './containers/AuthorList';
 import GenreList from './containers/GenreList';
 import CopyList from './containers/CopyList';
 
-import BookDetail from './containers/BookDetail.js';
+import BookDetail from './containers/BookDetail';
+import AuthorDetail from './containers/AuthorDetail'
+import GenreDetail from './containers/GenreDetail';
+import CopyDetail from './containers/CopyDetail';
 const customHistory = createBrowserHistory();
 const middleware = routerMiddleware(customHistory);
 // const rootReducer = combineReducers({
@@ -80,8 +83,11 @@ class App extends React.Component {
           <Route path='/books' component={BookList}></Route>
           <Route path='/book/:id' component={BookDetail}></Route>
           <Route path='/authors' component={AuthorList}></Route>
+          <Route path='/author/:id' component={AuthorDetail}></Route>
           <Route path='/genres' component={GenreList}></Route>
+          <Route path='/genre/:id' component={GenreDetail}></Route>
           <Route path='/copys' component={CopyList}></Route>
+          <Route path='/copy/:id' component={CopyDetail}></Route>
           <Route path='/borrow' component={BorrowResult}></Route>
       </Router>
       </Provider>
